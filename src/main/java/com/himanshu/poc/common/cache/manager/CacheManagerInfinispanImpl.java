@@ -20,7 +20,7 @@ public class CacheManagerInfinispanImpl implements CacheManager {
 	}
 
 	@Override
-	public com.himanshu.poc.common.cache.Cache<?, ?> lookupCache(String name) {
+	public Cache<?, ?> lookupCache(String name) {
 		Cache<?, ?> cache = null;
 		org.infinispan.Cache<Object, Object> jCache = new DefaultCacheManager().getCache(name);
 		//cache = new CacheInfinispanImpl<Object, Object>(jCache);
