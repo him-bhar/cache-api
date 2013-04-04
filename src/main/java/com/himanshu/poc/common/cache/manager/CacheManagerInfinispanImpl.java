@@ -14,16 +14,22 @@ public class CacheManagerInfinispanImpl implements CacheManager {
 	@Override
 	public Cache<?, ?> lookupJndiCache(String name) {
 		Cache<?, ?> cache = null;
-		cache = new com.himanshu.poc.common.cache.CacheInfinispanImpl<Object, Object>(container.getCache(name));
+		//cache = new CacheInfinispanImpl<Object, Object>(container.getCache(name));
+		cache = createCache(container.getCache(name));
 		return cache;
 	}
 
 	@Override
-	public com.himanshu.poc.common.cache.Cache<?, ?> lookupCache(String cacheName) {
+	public com.himanshu.poc.common.cache.Cache<?, ?> lookupCache(String name) {
 		Cache<?, ?> cache = null;
-		org.infinispan.Cache<Object, Object> jCache = new DefaultCacheManager().getCache();
-		cache = new CacheInfinispanImpl<Object, Object>(jCache);
+		org.infinispan.Cache<Object, Object> jCache = new DefaultCacheManager().getCache(name);
+		//cache = new CacheInfinispanImpl<Object, Object>(jCache);
+		cache = createCache(jCache);
 		return cache;
+	}
+
+	private <K, T> Cache<K, T> createCache (org.infinispan.Cache<K, T> cache) {
+		return new CacheInfinispanImpl<K, T>(cache);
 	}
 
 }
